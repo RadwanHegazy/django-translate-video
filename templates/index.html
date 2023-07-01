@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> الرئيسية </title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+</head>
+<body>
+
+
+
+
+    <div class="overlayer">
+        <div class="load">الرجاء الانتظار...</div>
+    </div>
+    
+    <div class="view">
+
+        <form class="upload" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="up">
+                <p>ترجم فيديوهاتك الي العربية الان </p>
+                <img src="{% static 'images/video.png' %}" alt="">
+            </div>
+
+            <div class="center">
+                <input type="file" name="video" hidden id="VideoInput">
+                <video src=""></video>
+                <p>هيا لنرفع الفيديو</p>
+            </div>
+
+            <div class="btns">
+                <button type="submit" class="submitBtn" disabled>تحميل</button>
+                <button type="button" class="uploadVideoBtn">ارفع</button>
+            </div>
+
+        </form>
+
+    </div>
+    <footer>
+        <p>تم الانشاء و التطوير بواسطة <a href="https://www.facebook.com/radwan.hijazi" target="_blank">رضوان جابر حجازي</a></p>
+    </footer>
+
+    
+    <script>
+        var videoInput = document.getElementById('VideoInput');
+        var uploadBtn = document.querySelector('.uploadVideoBtn');
+        var submitBtn = document.querySelector('.submitBtn');
+        var video = document.querySelector('video');
+        let videoSrc ;
+
+        videoInput.addEventListener('change',function(e){
+            videoSrc = URL.createObjectURL(e.target.files[0]);
+            video.src = videoSrc;
+            video.controls = true;
+
+            
+            uploadBtn.textContent = 'تغير'
+            
+            submitBtn.disabled = false;
+            submitBtn.classList.add('allow')
+
+        })
+
+
+        function AddVideoToVideoElement (){
+            
+            videoInput.click();
+
+        }
+
+        document.querySelector('form').addEventListener('submit',function(){
+            document.querySelector('.overlayer').classList.add('view')
+        })
+
+        uploadBtn.addEventListener('click',()=>{AddVideoToVideoElement()})
+        
+    </script>
+</body>
+</html>

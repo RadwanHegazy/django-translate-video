@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {{video.title}} </title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" href="{% static 'video.css' %}">
+</head>
+<body>
+    
+    <div class="view">
+
+        <div class="main">
+            <div class="screen">
+                <video src="{{ video.video.url }}" controls controlsList="nofullscreen" nofullscreen></video>
+                <p class="text"></p>
+            </div>
+            
+            <div class="info">
+                <a href="/">الرجوع</a>
+                <div class="share">
+                    <a target="_blank" href="{{ video.fb_url }}" ><img src="{% static 'images/socialmedia/icons8-facebook-96.png' %}" alt=""></a>
+                    <a target="_blank" href="{{ video.tel_url }}" ><img src="{% static 'images/socialmedia/icons8-telegram-96.png' %}" alt=""></a>
+                    <a target="_blank" href="{{ video.wa_url }}" ><img src="{% static 'images/socialmedia/icons8-whatsapp-96.png' %}" alt=""></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>تم الانشاء و التطوير بواسطة <a href="#">رضوان جابر حجازي</a></p>
+    </footer>
+
+    <script>
+        var starts = "{{video.starts}}".split('@');
+        var ends = "{{video.ends}}".split('@');
+        var texts = "{{video.texts}}".split('@');
+        
+        var video = document.querySelector('video');
+        var text = document.querySelector('.text');
+        
+        setInterval(function(){
+            var currentTime = video.currentTime ;
+            
+            for (var i=0;i<=starts.length;i++){
+                
+              if (currentTime >= parseFloat(starts[i]) && currentTime <= parseFloat(ends[i])){
+                    text.textContent = texts[i];
+                }
+                
+                
+            }
+        },100)
+
+
+        video.ended = function(){
+            text.textContent = '';
+        }
+
+    </script>
+
+</body>
+</html>
